@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+{% endblock %}
+
+
+{% block body %}
+<main>
+    <div class="container">
+        <div class="grid">
+
+            <div >
+                <h1 style=" font-weight: 800; margin-bottom: var(--spacing)">Keep Your Passwords Under Ball And Chain</h1>
+                <p>Everything you need in one place</p>
+                <div role="grid">
+                    <a class="contrast outline" href="/login" role="button">Enter your dungeon</a>
+                    <a class="" href="/login/new" role="button">Create your dungeon now</a>
+                </div>
+                <div style="margin-bottom: 40pt;"></div>
+
+                <article class="container">
+                    <ul>
+                        <li><p>locked away behind closed doors</p></li>
+                        <li><p>safe from prying eyes</p></li>
+                        <li><p>100% safe from goblins and trolls</p></li>
+                        <li><p>protected under the belly of a dragon</p></li>
+                    </ul>
+                </article>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="{{ url_for('static', filename='images/door.png') }}" alt="" height="700" width="350" >
+            </div>
+
+        </div>
+    </div>
+
+    <div style="margin: 10%"></div>
+</main>
+{% endblock %}

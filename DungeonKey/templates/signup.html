@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style>
+    h1 {
+        text-align: center;
+        text-size-adjust: xl;
+        margin: 50px;
+    }
+</style>
+{% endblock %}
+
+
+{% block body %}
+
+<!-- error messages -->
+{% for message in messages %}
+{% endfor %}
+
+
+<main>
+    <div class="container">
+        <h1>Enter The Dungeon</h1>
+    </div>
+
+    <dialog open class="modal-is-opening">
+        <article>
+            <header>
+                <a class="modal-is-closing" href="#" aria-label="close">close</a>
+                <p>Successfully signed up</p>
+            </header>
+        </article>
+    </dialog>
+
+    <article class="container">
+        <form  method="POST" style="margin-left: 5%; margin-right: 5%;">
+            {{ form.hidden_tag() }}
+            <div>
+            {{ form.name.label }}
+            {{ form.name() }}
+            {{ form.email.label }}
+            {{ form.email() }}
+            {{ form.password.label }}
+            {{ form.password() }}
+            </div>
+            <div class="grid">
+            {{ form.submit() }}
+            <a href="/login" role="button" class="contrast outline">Login</a>
+            </div>
+
+            <!-- form error handling -->
+            {% for feild, errors in form.errors.items() %}
+                <dialog open>
+                    <article>
+                        <header>
+                            <link to="#" aria-label="Close" class="close">
+                            <p>Oops, Invalid Input</p>
+                        </header>
+                        <p>
+                            {{ feild }}: {{ errors }}
+                        </p> <br>
+                    </article>
+                </dialog>
+            {% endfor %}
+
+        </form>
+    </article>
+</main>
+{% endblock %}

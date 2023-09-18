@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pico-2/css/pico.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flexbox/flexbox.min.css') }}">
+    <title>Dungeon Key</title>
+    <style>
+        .nav-bar {
+            z-index: 2;
+            position: sticky;
+            top: 0;
+            padding-top: 0;
+            padding: .5rem 0;
+            border-bottom: var(--pico-border-width) solid var(--pico-header-border-color);
+            -webkit-backdrop-filter: blur(1rem);
+            backdrop-filter: blur(1rem);
+            background-color: var(--pico-header-background);
+            box-shadow: var(--pico-card-box-shadow);
+        }
+        .no-margin {
+            margin: 0;
+        }
+    </style>
+    {% block head %} {% endblock %}
+</head>
+<body>
+    <header class="nav-bar">
+        <div class="container">
+        <nav style="text-anchor: start;">
+            <ul> 
+                <li>
+                    <a href="/">
+                        <img src="{{ url_for('static', filename='images/keys.png') }}" height="50" width="50">
+                    </a>
+                </li>
+                <li>
+                    <h1 class="no-margin">Dungeon Key</h1>
+                </li> 
+            </ul>
+            <ul>
+                {% if CurrentSession %}
+                    <a href="/user/{{ CurrentSession }}" role="button">Home</a>
+                {% else %}
+                    <a href="/login" role="button">Profile</a>
+                {% endif %}
+            </ul>
+        </nav>
+        </div>
+    </header>
+    {% block body %} {% endblock %}
+</body>
+</html>

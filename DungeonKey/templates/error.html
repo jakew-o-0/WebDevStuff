@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style>
+    h1 {
+        text-align: center;
+    }
+    h2 {
+        text-align: center;
+    }
+    p {
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+
+{% block body %}
+<article class="container">
+    <hgroup style="margin: 10%;">
+            <h1>Oops!</h1>
+            <h2>{{ etype }}: Page Not Found</h2>
+            <p>{{ e }}</p>
+    </hgroup>
+</article>
+{% endblock %}
