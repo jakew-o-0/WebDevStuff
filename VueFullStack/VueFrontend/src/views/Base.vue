@@ -41,7 +41,8 @@ components: { ItemInstance }
         <div  class=" grid grid-flow-row auto-rows-max">
             <ItemInstance
                 v-for="task in Tasks" 
-                :key="task._id" :id="task._id" 
+                :key="task._id" 
+                :id="task._id" 
                 :name="task.name" 
                 :completed="task.completed"/>
         </div>
