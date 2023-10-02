@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
+from fastapi.middleware.cors import CORSMiddleware
 
 from config import settings
 from TodoApp.routers import router as todo_router
@@ -17,6 +18,13 @@ async def shutdown_db_client():
     app.mongodb_client.close()
 
 app.include_router(todo_router, tags=['tasks'], prefix='/task')
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins='*',
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 
 if __name__ == "__main__":
     uvicorn.run(
