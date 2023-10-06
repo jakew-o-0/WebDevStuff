@@ -29,6 +29,11 @@ async def get_all_tasks(request: Request):
     for task in await db['Tasks'].find().to_list(length=100):
         tasks.append(task)
     
+    if tasks == [] :
+        return HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Tasks Empty",
+            )
     return tasks
 
 
