@@ -1,13 +1,13 @@
 <script setup>
-const TaskContent = defineProps(['id', 'name', 'completed'])
+import { ref } from 'vue';
 
-function ComleteTask() {
-    TaskContent.completed.value = true;
-}
+const TaskContent = defineProps(['id', 'name', 'completed']);
+const TaskId = ref(TaskContent.id);
+
 </script>
 
 <template>
-    <div @click.self="ComleteTask" class="m-5 bg-slate-600 rounded-md shadow-md shadow-black/70">
+    <div @click="$emit('UpdateTask', TaskId)" class="m-5 bg-slate-600 rounded-md shadow-md shadow-black/70">
         <div class=" bg-blue-300 p-2 rounded-md">
             <h2 class=" font-semibold text-lg text-blue-400">ID</h2>
             <p>{{ TaskContent.id }}</p>
@@ -17,7 +17,7 @@ function ComleteTask() {
             </div>
         </div>
         <div class="flex justify-center">
-            <h2 v-if="TaskContent.completed" class=" text-green-500">Completed</h2>
+            <h2 v-if="TaskContent.completed === true" class=" text-green-500">Completed</h2>
             <h2 v-else class=" text-red-500">Completed</h2>
         </div>
     </div>

@@ -20,7 +20,7 @@ async def shutdown_db_client():
 app.include_router(todo_router, tags=['tasks'], prefix='/task')
 app.add_middleware(
     CORSMiddleware,
-    allow_origins='*',
+    allow_origins=['*'],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],

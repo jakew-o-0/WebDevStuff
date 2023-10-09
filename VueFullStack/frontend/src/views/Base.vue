@@ -12,24 +12,39 @@ setup() {
 
         function GetAllTasks() {
             axios.get('http://localhost:8000/task/')
-                .then((res) => {
-                    if(res.data.status_code === undefined) {
-                        ReqestErr.value = fase;
-                    } else {
-                        ReqestErr.value = true;
-                    }
-                    Tasks.value = res.data;
-                })
-                .catch((err) => {
+            .then((res) => {
+                if(res.data.status_code === undefined) {
+                    ReqestErr.value = false;
+                } else {
                     ReqestErr.value = true;
-                });
+                }
+                Tasks.value = res.data;
+            })
+            .catch((err) => {
+                ReqestErr.value = true;
+            });
         };
+
+        function updateTask(id) {
+            axios.put(
+                'http://localhost:8000/task/' + id,
+                {
+                    completed: true,
+                })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+        }
 
     return {
         Tasks,
         ReqestErr,
         CreateTaskPressed,
         GetAllTasks,
+        updateTask,
     };
 },
 
@@ -47,7 +62,7 @@ components: { ItemInstance, Modal }
 
 
 <template>
-    <Modal v-if="CreateTaskPressed === true"/>
+    <Modal @Close-Modal="CreateTaskPressed = false" v-if="CreateTaskPressed === true"/>
 
     <main class=" flex justify-center">
         <div class="flex flex-col justify-center lg:max-w-3xl">
@@ -63,6 +78,7 @@ components: { ItemInstance, Modal }
 
             <div v-if="ReqestErr === false"  class=" grid grid-flow-row grid-cols-2 justify-center m-10">
                 <ItemInstance
+                    @Update-Task="(id) => {updateTask(id);}"
                     v-for="task in Tasks"
                     :key="task._id"
                     :id="task._id" 
