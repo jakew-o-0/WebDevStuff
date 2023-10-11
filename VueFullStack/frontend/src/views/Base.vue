@@ -84,7 +84,7 @@ components: { ItemInstance, Modal }
     <Modal @Close-Modal="SigCloseModal" v-if="CreateTaskPressed === true"/>
 
     <main class=" flex justify-center">
-        <div class="flex flex-col justify-center lg:max-w-3xl">
+        <div class="flex flex-col justify-center">
 
             <div class="flex justify-center">
                     <h1 class="text-6xl font-semibold m-10 ">ToDo App</h1>
@@ -95,7 +95,7 @@ components: { ItemInstance, Modal }
                 <button @click.self="CreateTaskPressed = true" class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Create Task</button>
             </div>
 
-            <div v-if="ReqestErr === false"  class=" grid grid-flow-row grid-cols-2 justify-center m-10">
+            <div v-if="ReqestErr === false"  class=" grid grid-flow-row grid-cols-1 md:grid-cols-2 justify-center m-10">
                 <ItemInstance
                     @Update-Task="(id) => {updateTask(id);}"
                     v-for="task in Tasks"
