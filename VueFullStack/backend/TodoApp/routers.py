@@ -53,20 +53,22 @@ async def get_task_id(id: str, request: Request):
 @router.put('/{id}', response_description="Update a task")
 async def update_task(id: str, request: Request, update_task: UpdateTaskModel):
     db = request.app.mongodb
+    tasks_updated = 0
 
     if update_task.name is not None:
         is_name_updated = await db['Tasks'].update_one({'_id': id}, 
                                                        {'$set': {'name': update_task.name}})
+        if is_name_updated.modified_cound >= 1:
+            tasks_updated += 1
 
     if update_task.completed is not None:
         is_completed_updated = await db['Tasks'].update_one({'_id': id}, 
                                                             {'$set': {'completed': update_task.completed}})
+        if is_completed_updated.modified_count >= 1:
+            tasks_updated += 1
 
-    if  (is_name_updated.modified_count >= 1 or\
-        is_completed_updated.modified_count >= 1) and\
-        ((updated_task := await db['Tasks'].find_one({'_id': id})) is not None):
-            return JSONResponse(status_code=status.HTTP_200_OK, 
-                                content=updated_task) 
+    if  (tasks_updated >= 1):
+        return HTTPException(status_code=status.HTTP_200_OK)
 
     return HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                          detail=f"task with id: '{id}' does not exist")

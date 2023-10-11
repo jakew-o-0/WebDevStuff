@@ -26,17 +26,34 @@ setup() {
         };
 
         function updateTask(id) {
-            axios.put(
-                'http://localhost:8000/task/' + id,
-                {
-                    completed: true,
-                })
+            const data = {
+                completed: true
+            };
+
+            axios.put('http://localhost:8000/task/' + id, data)
             .then((res) => {
-                console.log(res);
+                if(res.data.status_code !== undefined) {
+                    GetAllTasks();
+                }
             })
             .catch((err) => {
                 console.error(err);
             });
+        }
+
+        function DeleteCompletedTasks() {
+            Tasks.value.forEach((task) => {
+                if(task.completed === true) {
+                    axios.delete('http://localhost:8000/task/' + task._id)
+                }
+            });
+
+            GetAllTasks();
+        }
+
+        function SigCloseModal() {
+            CreateTaskPressed.value = false;
+            GetAllTasks();
         }
 
     return {
@@ -45,6 +62,8 @@ setup() {
         CreateTaskPressed,
         GetAllTasks,
         updateTask,
+        DeleteCompletedTasks,
+        SigCloseModal,
     };
 },
 
@@ -62,7 +81,7 @@ components: { ItemInstance, Modal }
 
 
 <template>
-    <Modal @Close-Modal="CreateTaskPressed = false" v-if="CreateTaskPressed === true"/>
+    <Modal @Close-Modal="SigCloseModal" v-if="CreateTaskPressed === true"/>
 
     <main class=" flex justify-center">
         <div class="flex flex-col justify-center lg:max-w-3xl">
@@ -71,8 +90,8 @@ components: { ItemInstance, Modal }
                     <h1 class="text-6xl font-semibold m-10 ">ToDo App</h1>
             </div>
             <div class="flex justify-center">
-                <button @click.self="GetAllTasks" class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1 shadow-sm">Show all tasks</button>
                 <button   class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Get task by ID</button>
+                <button @click.self="DeleteCompletedTasks"  class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Delete Completed Tasks</button>
                 <button @click.self="CreateTaskPressed = true" class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Create Task</button>
             </div>
 

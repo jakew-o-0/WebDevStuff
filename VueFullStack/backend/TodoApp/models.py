@@ -19,8 +19,8 @@ class TaskModel(BaseModel):
         }
 
 class UpdateTaskModel(BaseModel):
-    name: Optional[str]
-    completed: Optional[bool]
+    name: str | None = None
+    completed: bool | None = None
 
     class Config:
         json_schema_extra = {
