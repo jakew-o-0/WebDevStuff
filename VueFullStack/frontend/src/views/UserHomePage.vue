@@ -77,7 +77,7 @@ components: { ItemInstance, Modal }
 
 
 <template>
-    <Modal @Close-Modal="SigCloseModal" v-if="CreateTaskPressed === true"/>
+    <Modal @Close-Modal="SigCloseModal" @wheel.prevent @touchmove.prevent @scroll.prevent v-if="CreateTaskPressed === true"/>
 
     <main class="container mx-auto columns-1">
 
@@ -101,6 +101,7 @@ components: { ItemInstance, Modal }
         </div>
 
     </main>
+
 </template>
 
 
