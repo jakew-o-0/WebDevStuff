@@ -7,7 +7,7 @@ const TaskId = ref(TaskContent.id);
 </script>
 
 <template>
-    <div @click="$emit('UpdateTask', TaskId)" class="m-5 bg-slate-600 rounded-md shadow-md shadow-black/70 w-fit">
+    <div @click="$emit('UpdateTask', TaskId)" class="bg-slate-600 rounded-md shadow-lg shadow-black/70 w-fit">
         <div class=" bg-blue-300 p-2 rounded-md">
             <h2 class=" font-semibold text-lg text-blue-400">ID</h2>
             <p>{{ TaskContent.id }}</p>

@@ -6,7 +6,7 @@ import Modal from '../components/Modal.vue'
 
 export default {
 setup() {
-    const Tasks = ref([{_id: "dummy id", name: "dummy name", completed: "dummy completed"}]);
+    const Tasks = ref([]);
     const ReqestErr = ref(false);
     const CreateTaskPressed = ref(false);
 
@@ -67,10 +67,6 @@ setup() {
     };
 },
 
-
-
-
-
 created() {
     this.GetAllTasks();
 },
@@ -83,31 +79,27 @@ components: { ItemInstance, Modal }
 <template>
     <Modal @Close-Modal="SigCloseModal" v-if="CreateTaskPressed === true"/>
 
-    <main class=" flex justify-center">
-        <div class="flex flex-col justify-center">
+    <main class="container mx-auto columns-1">
 
-            <div class="flex justify-center">
-                    <h1 class="text-6xl font-semibold m-10 ">ToDo App</h1>
-            </div>
-            <div class="flex justify-center">
-                <button   class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Get task by ID</button>
-                <button @click.self="DeleteCompletedTasks"  class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Delete Completed Tasks</button>
-                <button @click.self="CreateTaskPressed = true" class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Create Task</button>
-            </div>
-
-            <div v-if="ReqestErr === false"  class=" grid grid-flow-row grid-cols-1 md:grid-cols-2 justify-center m-10">
-                <ItemInstance
-                    @Update-Task="(id) => {updateTask(id);}"
-                    v-for="task in Tasks"
-                    :key="task._id"
-                    :id="task._id" 
-                    :name="task.name" 
-                    :completed="task.completed"/>
-            </div>
-            <div class="flex justify-center" v-else>
-                <h2 class=" text-xl text-slate-400 font-semibold m-5">No Tasks Found</h2>
-            </div>
+        <div class="sticky left-0 top-16 flex flex-col justify-center float-left bg-slate-300 rounded-md">
+            <button   class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Get task by ID</button>
+            <button @click.self="DeleteCompletedTasks"  class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Delete Completed Tasks</button>
+            <button @click.self="CreateTaskPressed = true" class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Create Task</button>
         </div>
+
+        <div v-if="ReqestErr === false"  class="grid grid-cols-2 gap-y-5 gap-x-5 justify-items-center w-fit m-auto">
+            <ItemInstance
+                @Update-Task="(id) => {updateTask(id);}"
+                v-for="task in Tasks"
+                :key="task._id"
+                :id="task._id" 
+                :name="task.name" 
+                :completed="task.completed"/>
+        </div>
+        <div class="flex justify-center" v-else>
+            <h2 class=" text-xl text-slate-400 font-semibold m-5">No Tasks Found</h2>
+        </div>
+
     </main>
 </template>
 

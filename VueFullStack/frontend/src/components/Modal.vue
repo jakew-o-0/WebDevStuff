@@ -31,7 +31,7 @@ function PostTask() {
 </script>
 
 <template>
-    <div @click.self="$emit('CloseModal')" class="absolute grid h-screen w-screen bg-slate-500/70">
+    <div @click.self="$emit('CloseModal')" class="absolute top-0 left-0 grid h-full w-full bg-slate-500/70 z-50">
         <form class="flex flex-col m-auto w-fit h-fit p-2 bg-white rounded-md" @submit.prevent="" action="#">
             <p>Task Name:</p>
             <input v-model="taskName" class="border border-blue-300 rounded-md" type="text">
