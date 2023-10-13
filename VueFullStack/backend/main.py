@@ -1,12 +1,14 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer
 
 from config import settings
 from TodoApp.routers import router as todo_router
 
 app = FastAPI()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="super secure token")
 
 @app.on_event("startup")
 async def startup_db_client():
@@ -17,7 +19,13 @@ async def startup_db_client():
 async def shutdown_db_client():
     app.mongodb_client.close()
 
-app.include_router(todo_router, tags=['tasks'], prefix='/task')
+app.include_router(
+    todo_router, 
+    tags=['tasks'], 
+    prefix='/task',
+    dependencies=[Depends(oauth2_scheme)]
+)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],

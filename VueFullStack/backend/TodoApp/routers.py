@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Body, HTTPException, Request, status
+from fastapi import APIRouter, Body, HTTPException, Request, status, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+from typing import Annotated
 
 from .models import TaskModel, UpdateTaskModel
 

@@ -87,7 +87,7 @@ components: { ItemInstance, Modal }
             <button @click.self="CreateTaskPressed = true" class=" bg-blue-300 rounded-md p-1 hover:bg-blue-400 active:bg-blue-500 active:ring active:ring-blue-400 active:ring-offset-1 m-1">Create Task</button>
         </div>
 
-        <div v-if="ReqestErr === false"  class="grid grid-cols-2 gap-y-5 gap-x-5 justify-items-center w-fit m-auto">
+        <div v-if="ReqestErr === false"  class="grid grid-cols-1 md:grid-cols-2 gap-y-5 gap-x-5 justify-items-center w-fit m-auto">
             <ItemInstance
                 @Update-Task="(id) => {updateTask(id);}"
                 v-for="task in Tasks"
