@@ -8,6 +8,7 @@ from config import settings
 from TodoApp.routers import router as todo_router
 
 app = FastAPI()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="super secure token")
 
 @app.on_event("startup")
 async def startup_db_client():
