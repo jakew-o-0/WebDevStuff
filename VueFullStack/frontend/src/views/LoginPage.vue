@@ -4,14 +4,12 @@
 <template>
 <main class=" absolute top-0 left-0 grid h-screen w-screen justify-items-center bg-slate-300">
 
-    <div class="flex-col justify-center w-fit h-fit m-auto rounded-md bg-white shadow-lg">
+    <div class="flex-col justify-center w-fit h-fit m-auto rounded-md bg-white shadow-xl">
         <h1 class=" bg-blue-400 rounded-md mb-2 text-center text-lg font-semibold">Login</h1>
 
-        <form class="m-2">
+        <form @submit.prevent class="m-2">
             <p>User Name:</p>
             <input class="border border-blue-300 rounded-md" type="text">
-            <p>Email:</p>
-            <input class="border border-blue-300 rounded-md" type="email">
             <p>Password:</p>
             <input class="border border-blue-300 rounded-md" type="password">
             <div class="flex justify-center">
