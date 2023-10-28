@@ -12,11 +12,11 @@ function GetHomePath() {
     router.push('/')
   }
 }
-
-
 </script>
 
+
 <template>
+  
   <div class=" sticky top-0 flex mb-10 max-w-full h-max border-b border-slate-500 shadow-md bg-white z-10">
     <h1 class="grow font-semibold text-5xl ml-2 mb-2">Todo App</h1>
     <div class="m-auto">
