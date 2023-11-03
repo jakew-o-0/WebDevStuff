@@ -34,30 +34,30 @@ function GoToIndex() {
       </svg>
 
       <div class="my-auto">
-        <h1 class="text-4xl font-bold">Gibjohn</h1>
-        <h2 class="mx-1 text-xl font-semibold">Tutoring</h2>
+        <h1 class="text-4xl font-bold text-stone-800">Gibjohn</h1>
+        <h2 class="mx-1 text-xl font-semibold text-stone-800">Tutoring</h2>
       </div>
     </div>
 
     <!-- Navigation buttonts -->
     <div class="ml-auto mr-2 my-auto flex justify-center">
-      <button @click="GoToLogin" class="bg-violet-700 text-gray-100 font-Body flex text-center text-sm p-1 mx-auto my-2 rounded hover:bg-violet-600 active:ring active:ring-violet-600 ">
-        <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 24 24" fill="currentColor">
-            <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm5.03 4.72a.75.75 0 010 1.06l-1.72 1.72h10.94a.75.75 0 010 1.5H10.81l1.72 1.72a.75.75 0 11-1.06 1.06l-3-3a.75.75 0 010-1.06l3-3a.75.75 0 011.06 0z" clip-rule="evenodd" />
-        </svg>
-        Login
+      <button @click="GoToLogin" class="bg-violet-700 text-gray-100  flex items-center p-1 mx-2 my-2 rounded hover:bg-violet-600 active:ring active:ring-violet-600 ">
+        <p class="text-sm font-Body">
+          Login
+        </p>
       </button>
-      <button @click="GoToLogin" class="bg-violet-700 text-gray-100 font-Body flex text-justify text-sm p-1 mx-auto my-2 rounded hover:bg-violet-600 active:ring active:ring-violet-600 ">
+      <button @click="GoToLogin" class="bg-violet-700 text-gray-100  flex items-center p-1 mx-2 my-2 rounded hover:bg-violet-600 active:ring active:ring-violet-600 ">
         <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 24 24" fill="currentColor">
           <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
         </svg>
-        <p class=" text-center">
-        Home
+        <p class="text-sm font-Body">
+          Home
         </p>
       </button>
     </div>
   </div>
 
+  <!-- main content -->
   <div>
     <RouterView />
   </div>
