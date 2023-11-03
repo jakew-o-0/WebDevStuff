@@ -12,6 +12,10 @@ module.exports = {
       'CustomWhite': '#F5F5F5',
     },
     */
+    fontFamily: {
+      'Header': ["'Suez One'", "serif"],
+      'Body': ["'Shippori Antique'", "sans-serif"],
+    },
     extend: {},
   },
   plugins: [],

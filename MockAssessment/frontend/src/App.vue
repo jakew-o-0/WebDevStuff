@@ -1,13 +1,24 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+
+const router  = useRouter();
+
+function GoToLogin() {
+  router.push('/login');
+}
+
+function GoToIndex() {
+  router.push('/');
+}
 </script>
+
 
 <template>
   <!-- Nav bar /-->
-  <div class='sticky top-0 flex w-auto h-full m-5 rounded-md shadow-md bg-gray-100'>
+  <div class='sticky top-0 flex w-auto h-full font-Header m-5 rounded-md shadow-md bg-gray-100'>
 
     <!-- logo /-->
-    <div class="grow flex">
+    <div @click="GoToIndex" class="flex hover:bg-gray-200 w-fit rounded">
       <svg class="m-2" width="75" height="75" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_13_3)">
           <path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M50.0398 255.304C19.0288 227.671 1.44849 190.292 1.08775 151.223C0.72702 112.153 17.6147 74.522 48.1113 46.4385C48.9791 45.6655 50.2885 45.6655 51.1564 46.4384L281.887 251.918C284.125 253.911 284.122 257.417 281.809 259.323C250.888 284.79 210.244 298.976 167.983 298.911C123.74 298.843 81.3305 283.163 50.0398 255.304Z" fill="#4B00FF"/>
@@ -28,12 +39,21 @@ import { RouterLink, RouterView } from 'vue-router'
       </div>
     </div>
 
-    <div class="ml-auto my-auto">
-      <button class="bg-indigo-700 text-gray-100 text-CustomWhite font-semibold text-xl p-1 m-2 rounded hover:bg-indigo-600 active:ring active:ring-indigo-600 ">
+    <!-- Navigation buttonts -->
+    <div class="ml-auto mr-2 my-auto flex justify-center">
+      <button @click="GoToLogin" class="bg-violet-700 text-gray-100 font-Body flex text-center text-sm p-1 mx-auto my-2 rounded hover:bg-violet-600 active:ring active:ring-violet-600 ">
+        <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 24 24" fill="currentColor">
+            <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9A.75.75 0 0115 9V5.25a1.5 1.5 0 00-1.5-1.5h-6zm5.03 4.72a.75.75 0 010 1.06l-1.72 1.72h10.94a.75.75 0 010 1.5H10.81l1.72 1.72a.75.75 0 11-1.06 1.06l-3-3a.75.75 0 010-1.06l3-3a.75.75 0 011.06 0z" clip-rule="evenodd" />
+        </svg>
         Login
       </button>
-      <button class="bg-indigo-700 text-gray-100 text-CustomWhite font-semibold text-xl p-1 m-2 rounded hover:bg-indigo-600 active:ring active:ring-indigo-600 ">
-        Home 
+      <button @click="GoToLogin" class="bg-violet-700 text-gray-100 font-Body flex text-justify text-sm p-1 mx-auto my-2 rounded hover:bg-violet-600 active:ring active:ring-violet-600 ">
+        <svg xmlns="http://www.w3.org/2000/svg" height="30" width="30" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
+        </svg>
+        <p class=" text-center">
+        Home
+        </p>
       </button>
     </div>
   </div>
