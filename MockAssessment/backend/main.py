@@ -19,7 +19,12 @@ app.include_router(
     login_router,
 )
 
+def test():
+    from utils import get_db
+    get_db().cursor().execute(
+        'CREATE TABLE tasks (task_id TEXT, owner_id TEXT, title: TEXT, due_date: TEXT, class_name: TEXT, )',
 
+    )
 if __name__ == '__main__':
     uvicorn.run(
         'main:app',
