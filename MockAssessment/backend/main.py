@@ -21,11 +21,18 @@ app.include_router(
 
 def test():
     from utils import get_db
-    get_db().cursor().execute(
-        'CREATE TABLE tasks (task_id TEXT, owner_id TEXT, title: TEXT, due_date: TEXT, class_name: TEXT, )',
-
+    con = get_db()
+    con.cursor().execute(
+        'CREATE TABLE tasks (task_id TEXT, owner_id TEXT, groups_id TEXT, name TEXT, due_date TEXT, class_name TEXT, content TEXT)'
     )
-if __name__ == '__main__':
+    con.cursor().execute(
+        'CREATE TABLE users_tasks (user_id TEXT, task_id TEXT)'
+    )
+    con.cursor().execute(
+        'CREATE TABLE tasks_groups (task_id TEXT, group_id TEXT)'
+    )
+    con.commit()
+
     uvicorn.run(
         'main:app',
         host='localhost',
