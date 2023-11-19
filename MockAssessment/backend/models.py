@@ -18,3 +18,5 @@ class NewTask(BaseModel):
     name: str = Field(min_length=5, max_length=30)
     class_name: str = Field(min_length=5, max_length=30)
     due_date: str = Field(min_length=5, max_length=30)
+    content: str = Field(min_length=0, max_length=500)
+    num_of_groups: int = Field(...)
