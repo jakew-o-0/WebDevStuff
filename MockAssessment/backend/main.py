@@ -1,12 +1,15 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware 
+from fastapi.templating import Jinja2Templates
 import uvicorn
 
-from routes.login import router as login_router
-from routes.tasks import router as tasks_router
+# from routes.login import router as login_router
+# from routes.tasks import router as tasks_router
 
 
 app = FastAPI()
+templates = Jinja2Templates(directory='Templates')
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,13 +19,21 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-app.include_router(
-    login_router,
-)
-app.include_router(
-    tasks_router,
-    prefix='/tasks'
-)
+# app.include_router(
+    # login_router,
+# )
+# app.include_router(
+    # tasks_router,
+    # prefix='/api/tasks'
+# )
+
+@app.get('/', response_class=HTMLResponse)
+async def index_page(request: Request):
+    context = {'request': request, 'testdata': 'this is a test'}
+    return templates.TemplateResponse('index.html', context)
+
+
+
 
 def test():
     from utils import get_db
@@ -47,6 +58,7 @@ def test():
     )
     con.commit()
 
+if __name__ == '__main__':
     uvicorn.run(
         'main:app',
         host='localhost',
