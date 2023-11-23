@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Button({ children }: { children: React.ReactNode}, colour: string, extraStyling: string,) {
+export default function Button({children, colour, extraStyling}: {children: any, colour: string, extraStyling: string | null}) {
     let style = 'flex items-center p-1 rounded'
 
     if(colour === 'violet') {
@@ -13,7 +13,9 @@ export default function Button({ children }: { children: React.ReactNode}, colou
         style.concat(' bg-emerald-300 text-stone-800 hover:bg-emerald-400 active:ring active:ring-violet-400 ')
     }
 
-    style.concat(' ' + extraStyling)
+    if(extraStyling !== null) {
+        style.concat(' ' + extraStyling)
+    }
 
     return (
         <button className={style}>
