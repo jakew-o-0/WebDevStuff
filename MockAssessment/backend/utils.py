@@ -15,7 +15,7 @@ def dict_factory(cur, row):
     return d
 
 def get_db():
-    con = sqlite3.connect('./data/GibjohnTutoringDB')
+    con = sqlite3.connect('./data/GibjohnTutoringDB.sqlite3')
     con.row_factory = dict_factory
     return con
 

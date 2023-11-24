@@ -32,6 +32,7 @@ app.include_router(
 async def index_page(request: Request):
     context = {'request': request}
     return templates.TemplateResponse('index.html', context)
+
 @app.get('/home', response_class=HTMLResponse)
 async def home_page(request: Request):
     context = {'request': request}

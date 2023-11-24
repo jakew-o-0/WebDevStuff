@@ -27,12 +27,18 @@
                 hx-trigger="click" 
                 hx-get="/login" 
                 hx-target="#root" 
-                hx-swap="outerHTML">
+                hx-swap="outerHTML"
+                >
                     login
                 </button>
             </li>
             <li>
-                <button>
+                <button
+                hx-trigger="click"
+                hx-get="/login/new"
+                hx-target="#root"
+                hx-swap="outerHTML"
+                >
                     signup
                 </button>
             </li>

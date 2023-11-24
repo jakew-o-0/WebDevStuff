@@ -42,18 +42,30 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
         raise auth_exception
 
     # generate token
-    return Token(
-        access_token=jwt.encode(
-            claims={
-                'data': user['uuid'],
-                'exp': datetime.utcnow() + timedelta(TOKEN_TIMEOUT)
-            },
-            key=SECRET_KEY,
-            algorithm=ALGORITHM
-        ),
-        token_type='Bearer'
+    token = 'Bearer ' + str(jwt.encode(
+        claims={
+            'data': user['uuid'],
+            'exp': datetime.utcnow() + timedelta(TOKEN_TIMEOUT)
+        },
+        key=SECRET_KEY,
+        algorithm=ALGORITHM
+    ))
+    response = HTMLResponse('<h1>logged in</h1>')
+    response.set_cookie(
+        key='session',
+        value=token
     )
+    return response
 
+
+
+
+
+
+@router.get('/new', response_class=HTMLResponse)
+async def signup(request: Request):
+    context = {'request': request}
+    return templates.TemplateResponse('signupPage.html', context)
 
 
 @router.post('/new')
