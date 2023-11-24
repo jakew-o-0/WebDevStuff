@@ -1,10 +1,10 @@
-from fastapi import Depends, APIRouter, Form, HTTPException, status
+from fastapi import Depends, APIRouter, Form, HTTPException, status, Request
+from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.templating import Jinja2Templates
 
-from pydantic import BaseModel, Field
 from typing import Annotated
 
-from passlib.context import CryptContext
 from jose import JWTError, jwt
 import uuid
 from datetime import datetime, timedelta
@@ -14,6 +14,14 @@ from utils import get_db, TOKEN_TIMEOUT, ALGORITHM, SECRET_KEY, pwd_context
 
 
 router = APIRouter()
+templates = Jinja2Templates('Templates')
+
+
+@router.get('/', response_class=HTMLResponse)
+async def login_page(request: Request):
+    context = {'request': request, 'usr_page': 'home'}
+    return templates.TemplateResponse('loginPage.html', context)
+
 
 @router.post('/', response_model=Token)
 async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):

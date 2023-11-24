@@ -4,8 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@next/css/pico.min.css"/>
 </head>
 <body>
-    <h1>{{ testdata }}</h1>
+    <nav class="container-fluid">
+        <ul>
+            <li>
+                <h1 
+                hx-trigger="click"
+                hx-get="/home"
+                hx-target="#root"
+                hx-swap="outerHTML"
+                >
+                    TEST WEBSITE FOR<br>HTMX AND FASTAPI
+                </h1>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <button 
+                hx-trigger="click" 
+                hx-get="/login" 
+                hx-target="#root" 
+                hx-swap="outerHTML">
+                    login
+                </button>
+            </li>
+            <li>
+                <button>
+                    signup
+                </button>
+            </li>
+        </ul>
+    </nav>
+    <main class="container">
+        <div id="root" class="grid"
+        hx-get="/home"
+        hx-trigger="once, load"
+        >
+        </div>
+    </main>
 </body>
 </html>
