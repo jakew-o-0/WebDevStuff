@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block body %}
+<article>
+    <form 
+    hx-post='/api/login'
+    hx-swap='beforeend'
+    >
+        <input type="email" name="username" id="username" placeholder="Email:"/>
+        <input type="password" name="password" id="password" placeholder="Password:">
+        <input type="submit" value="Login">
+    </form>
+    <div id='testdiv'>
+        <button hx-get='/authtest' hx-target='#testdiv' hx-swap='beforeend'>Test Button</button>
+    </div>
+</article>
+{% endblock %}

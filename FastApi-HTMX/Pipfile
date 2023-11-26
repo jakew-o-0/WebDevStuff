@@ -10,6 +10,7 @@ python-jose = {extras = ["cryptograpy"], version = "*"}
 passlib = {extras = ["bcrypt"], version = "*"}
 jinja2 = "*"
 aiosqlite = "*"
+python-multipart = "*"
 
 [dev-packages]
 

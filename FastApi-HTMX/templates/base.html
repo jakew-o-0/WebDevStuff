@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <title>FastAPI-HTMX</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@next/css/pico.min.css"/>
+        <script src="https://unpkg.com/htmx.org@1.9.9"></script>
+        {% endblock %}
+    </head>
+    <body class='container'
+    hx-get='/login/token'
+    hx-trigger='every 29m'
+    hx-header
+    >
+        {% include 'components/navbar.html' %}
+        {% block body %}
+        {% endblock %}
+    </body>
+
+    <script>
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['Authorization'] = getCookie('access_token')
+    })
+    </script>
+</html> 

@@ -1,5 +1,6 @@
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
+import aiosqlite
 
 
 # oauth_scheme is for setting up authenticated routes
