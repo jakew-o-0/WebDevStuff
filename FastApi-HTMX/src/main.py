@@ -1,13 +1,13 @@
-from fastapi import FastAPI, Request, Depends
+from typing import Annotated
+from fastapi import Cookie, FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 import uvicorn
 
-from typing import Annotated
+from routes.login_routes import router as auth_router
 
-from routes.login_routes import router as login_router
-from utils import OAUTH_SCHEME
 
 
 app = FastAPI()
@@ -22,34 +22,64 @@ app.add_middleware(
 )
 
 app.include_router(
-    login_router,
-    prefix='/api/login'
+    auth_router,
+    prefix='/auth'
 )
 
 
 
 
+async def is_loggedin(access_token):
+    logged_in = False
+    if access_token != None or access_token == '':
+       logged_in = True
+    return logged_in
+
+
 # routes for html main pages
 
 @app.get('/', response_class=HTMLResponse)
-async def index_page(request: Request):
+async def index_page(request: Request, access_token: Annotated[str | None, Cookie()] = None):
     return templates.TemplateResponse(
-        'pages/indexPage.html',
-        {'request': request},
-        headers={'HX-Redirect': '/'} #work-around for refreshing the page instead of using an <a> tag
+        name='pages/indexPage.html',
+        context={
+            'request': request,
+            'logged_in': await is_loggedin(access_token)
+        },
+        headers={'HX-Redirect': '/'}
     )
 
 @app.get('/login', response_class=HTMLResponse)
-async def login_page(request: Request):
+async def login_page(request: Request, access_token: Annotated[str | None, Cookie()] = None):
     return templates.TemplateResponse(
         name='pages/loginPage.html',
-        context={'request': request},
+        context={
+            'request': request,
+            'logged_in': await is_loggedin(access_token)
+        },
         headers={'HX-Redirect': '/login'}
     )
-@app.get('/authtest')
-async def test(token: Annotated[str, Depends(OAUTH_SCHEME)]):
-    return HTMLResponse(
-        '<h1>IT WORKED</h1>',
+
+@app.get('/signup', response_class=HTMLResponse)
+async def signup_page(request: Request, access_token: Annotated[str | None, Cookie()] = None):
+    return templates.TemplateResponse(
+        name='pages/signupPage.html',
+        context={
+            'request': request,
+            'logged_in': await is_loggedin(access_token)
+        },
+        headers={'HX-Redirect': '/signup'}
+    )
+
+@app.get('/user/home', response_class=HTMLResponse)
+async def user_home_page(request: Request, access_token: Annotated[str | None, Cookie()] = None):
+    return templates.TemplateResponse(
+        name='pages/userHomePage.html',
+        context={
+            'request': request,
+            'logged_in': await is_loggedin(access_token)
+        },
+        headers={'HX-Redirect': '/user/home'}
     )
 
 

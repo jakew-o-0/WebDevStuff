@@ -1,3 +1,49 @@
+{% macro defaultNav() -%}
+<lu>
+<li>
+    <button data-tooltip='Login' data-placement='bottom'
+        hx-get='/login'
+        hx-trigger='click'
+        hx-push-url='true'
+    >
+        Login
+    </button>
+</li>
+<li>
+    <button data-tooltip='SignUp' data-placement='bottom'
+        hx-get='/signup'
+        hx-trigger='click'
+        hx-push-url='true'
+    >
+        SignUp
+    </button>
+</li>
+</lu>
+{%- endmacro %}
+
+{% macro loggedinNav() -%}
+<lu>
+    <li>
+        <button
+        hx-get='/user/home/'
+        hx-trigger='click'>
+            Home
+        </button>
+    </li>
+    <li>
+        <details class='dropdown'>
+            <summary>Account</summary>
+            <ul dir="ltr">
+                <li><a hx-get='/user/'>Details</a></li>
+                <li><a hx-get='/auth/logout'>Signout</a></li>
+            </ul>
+        </details>
+    </li>
+</lu>
+{%- endmacro %}
+
+
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -9,30 +55,31 @@
         <script src="https://unpkg.com/htmx.org@1.9.9"></script>
         {% endblock %}
     </head>
-    <body class='container'
-    hx-get='/login/token'
+    <body 
+    class='container'
+    hx-get='/auth/token/'
     hx-trigger='every 29m'
-    hx-header
-    >
-        {% include 'components/navbar.html' %}
+    hx-swap='none'>
+        <nav>
+            <ul>
+            <li>
+                <h1 data-tooltip='Index page' data-placement='bottom'
+                    hx-get="/"
+                    hx-trigger="click"
+                    hx-push-url="true"
+                >
+                    TITLE
+                </h1> 
+            </li>
+            </ul>
+            {% if logged_in %}
+                {{ loggedinNav() }}
+            {% else %}
+                {{ defaultNav() }}
+            {% endif %}
+        </nav>
+
         {% block body %}
         {% endblock %}
     </body>
-
-    <script>
-    function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
-
-    document.body.addEventListener('htmx:configRequest', (event) => {
-        event.detail.headers['Authorization'] = getCookie('access_token')
-    })
-    </script>
 </html> 

@@ -1,4 +1,4 @@
-<nav>
+<nav class='container-fluid'>
     <ul>
         <li>
             <h1 data-tooltip='Index page' data-placement='bottom'
@@ -21,7 +21,11 @@
             </button>
         </li>
         <li>
-            <button>
+            <button data-tooltip='SignUp' data-placement='bottom'
+            hx-get='/signup'
+            hx-trigger='click'
+            hx-push-url='true'
+            >
                 SignUp
             </button>
         </li>

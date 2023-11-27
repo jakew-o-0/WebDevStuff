@@ -6,16 +6,13 @@
 
 {% block body %}
 <article>
-    <form 
-    hx-post='/api/login'
-    hx-swap='beforeend'
+    <form vaidate
+    hx-post='/auth/login/'
+    hx-swap='innerHTML'
     >
-        <input type="email" name="username" id="username" placeholder="Email:"/>
-        <input type="password" name="password" id="password" placeholder="Password:">
+        <input type="email" name="username" id="username" placeholder="Email:" required/>
+        <input type="password" name="password" id="password" placeholder="Password:" required>
         <input type="submit" value="Login">
     </form>
-    <div id='testdiv'>
-        <button hx-get='/authtest' hx-target='#testdiv' hx-swap='beforeend'>Test Button</button>
-    </div>
 </article>
 {% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block body %}
+<article>
+    <form
+    hx-post='/auth/signup'
+    hx-swap='innerHTML'
+    >
+        <div class='grid'>
+            <input type="text" name="first_name" id="first_name" placeholder='First Name:' maxlength='30'>
+            <input type="text" name="last_name" id="last_name" placeholder='Last Name:' maxlength='30'>
+        </div>
+        <input type="email" name="email" id="email" placeholder='Email:' maxlength='50'>
+        <input type="password" name="password" id="password" placeholder='Password' maxlength='20'>
+        <input type="password" name="conf_password" id="conf_password" placeholder='Confirm Password' maxlength='20'>
+        <input type="submit" value="SignUp">
+    </form>
+</article>
+{% endblock %}
+

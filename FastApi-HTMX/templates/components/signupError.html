@@ -1,0 +1,98 @@
+{% macro set_small_for_password(errs) -%}
+    <small id='invalidContent'>
+    {% if 'passwords_match_err' in errs %}
+        Passwords do not match
+    {% endif %}
+
+    {% if 'password_format_err' in errs %}
+        <br>
+        <ul>
+            Password must have:
+            <li>8-20 chars</li>
+            <li>one upper case</li>
+            <li>one lower case</li>
+            <li>one special character</li>
+        </ul>
+    {% endif %}
+    </small>    
+{%- endmacro %}
+
+{% macro create_input(name, placeholder, is_invalid, type) -%}
+<input 
+    type="{{ type }}" 
+    name="{{ name }}" 
+    id="{{ name }}" 
+    placeholder='{{ placeholder }}' 
+    maxlength='20' 
+
+    {% if is_invalid == true %}
+        aria-invalid='true' 
+        aria-describedby='invalidContnet'
+    {% endif %}
+>
+{%- endmacro %}
+
+{% macro set_small(content, is_invalid) -%}
+    <small id='invalidContent'>
+    {% if is_invalid == true %}
+        {{ content }}
+    {% endif %}
+    </small>    
+{%- endmacro %}
+
+    
+{% set fname_invalid = false %}
+{% if 'fname_format_err' in errs %}
+    {% set fname_invalid = true %}
+{% endif %}
+
+{% set lname_invalid = false %}
+{% if 'lname_format_err' in errs %}
+    {% set lname_invalid = true %}
+{% endif %}
+
+{% set email_invalid = false %}
+{% if 'email_format_err' in errs %}
+    {% set email_invalid = true %}
+{% endif %}
+
+{% set password_invalid = false %}
+{% if 'password_format_err' in errs or 'passwords_match_err' in errs %}
+    {% set password_invalid = true %}
+{% endif %}
+
+
+<div class='grid'>
+    <div>
+        {{ create_input("first_name", "First Name:", fname_invalid, "text") }}
+        {{ set_small("cannot have special characters or numbers", fname_invalid) }}
+    </div>
+    <div>
+        {{ create_input("last_name", "Last Name:", lname_invalid, "text") }}
+        {{ set_small("cannot have special characters or numbers", lname_invalid) }}
+    </div>
+</div>
+
+{{ create_input("email", "Email:", email_invalid, "email") }}
+{{ set_small("Invalid Email or it already exists", email_invalid) }}
+<small id="invalidContent">
+   Invalid email
+</small>
+
+{{ create_input("password", "Password:", password_invalid, "password") }}
+{{ set_small("Invalid Password", password_invalid) }}
+{{ create_input("conf_password", "Confirm Password:", password_invalid, "password") }}
+{{ set_small("Passwords do not match", password_invalid) }}
+{% if password_invalid == true %}
+<ul>
+<li>Password must have:</li>
+    <ul>
+    <li>matching</li>
+    <li>8-20 characters in length</li>
+    <li>one upper case</li>
+    <li>one lower case</li>
+    <li>one special character out of: !@#$%^&*,.?+_=</li>
+    </ul>
+</ul>
+{% endif %}
+<input type="submit" value="SignUp">
