@@ -54,6 +54,11 @@
 {% set email_invalid = false %}
 {% if 'email_format_err' in errs %}
     {% set email_invalid = true %}
+    {% set email_content = 'Invalid Email' %}
+
+{% elif 'email_exists_err' in errs %}
+    {% set email_invalid = true %}
+    {% set email_content = 'Email already used' %}
 {% endif %}
 
 {% set password_invalid = false %}
@@ -74,10 +79,7 @@
 </div>
 
 {{ create_input("email", "Email:", email_invalid, "email") }}
-{{ set_small("Invalid Email or it already exists", email_invalid) }}
-<small id="invalidContent">
-   Invalid email
-</small>
+{{ set_small(email_content, email_invalid) }}
 
 {{ create_input("password", "Password:", password_invalid, "password") }}
 {{ set_small("Invalid Password", password_invalid) }}

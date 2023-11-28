@@ -87,7 +87,6 @@ async def refresh_token(access_token: Annotated[str | None, Cookie()] = None):
         if user_id is None:
             raise Exception
     except Exception:
-        print('here')
         response = HTMLResponse()
         response.delete_cookie(
             key='access_token',
@@ -143,9 +142,8 @@ async def signup(request: Request,
     async with aiosqlite.connect('data/DataBase.sqlite3') as db:
         user = await db.execute('SELECT * FROM users WHERE email = ?', (email,))
         user = await user.fetchone()
-        print(user)
         if not(user == [] or user == () or user == None): 
-            errs.append('email_format_err')
+            errs.append('email_exists_err')
 
     if errs != []:
         return templates.TemplateResponse(
