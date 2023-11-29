@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block body %}
+{{ for data in user_data }}
+{{ endfor }}
+{% endblock %}

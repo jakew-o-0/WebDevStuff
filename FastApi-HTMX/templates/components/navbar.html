@@ -1,33 +1,51 @@
-<nav class='container-fluid'>
-    <ul>
-        <li>
-            <h1 data-tooltip='Index page' data-placement='bottom'
-            hx-get="/"
-            hx-trigger="click"
-            hx-push-url="true"
-            >
-                TITLE
-            </h1> 
-        </li>
-    </ul>
-    <lu>
-        <li>
-            <button data-tooltip='Login' data-placement='bottom'
-            hx-get='/login'
-            hx-trigger='click'
-            hx-push-url='true'
-            >
-                Login
-            </button>
-        </li>
-        <li>
-            <button data-tooltip='SignUp' data-placement='bottom'
-            hx-get='/signup'
-            hx-trigger='click'
-            hx-push-url='true'
-            >
-                SignUp
-            </button>
-        </li>
-    </lu>
-</nav>
+{% macro defaultNav() -%}
+<lu>
+    <li>
+        <a data-tooltip='Login' data-placement='bottom' hx-get='/login' hx-trigger='click' hx-push-url='true' class="contrast">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-log-in">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10 17 15 12 10 7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+        </a>
+    </li>
+    <li>
+        <a class="contrast" data-tooltip='SignUp' data-placement='bottom' hx-get='/signup' hx-trigger='click' hx-push-url='true'>
+            Sign up
+        </a>
+    </li>
+</lu>
+{%- endmacro %}
+
+{% macro loggedinNav() -%}
+<lu>
+    <li>
+        <a data-tooltip="Home" data-placement="bottom" hx-get='/user/home/' hx-trigger='click' class="contrast">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-home">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+        </a>
+    </li>
+    <li>
+        <details class='dropdown primary' data-tooltip="Account" data-placement="bottom">
+            <summary>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-user">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </summary>
+            <ul dir="ltr">
+                <li><a hx-get='/user/'>Details</a></li>
+                <li><a hx-get='/auth/logout'>Signout</a></li>
+            </ul>
+        </details>
+    </li>
+</lu>
+{%- endmacro %}
