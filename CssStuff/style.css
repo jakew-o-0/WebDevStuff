@@ -1,0 +1,31 @@
+h1 {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+div {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    margin: auto;
+    height: 100vh;
+    width: 100vh;
+}
+
+.hidden {
+    transform: translate(-700px, 0);
+}
+
+@keyframes header_animator {
+    from {
+        transform: translate(-700px, 0);
+    }
+    to {
+        transform: translate(0,0);
+    }
+}
+
+.animate {
+    animation: header_animator 1s;
+}

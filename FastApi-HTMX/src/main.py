@@ -7,6 +7,8 @@ from fastapi.templating import Jinja2Templates
 import uvicorn
 
 from routes.login_routes import router as auth_router
+from routes.user_routes import router as user_router
+from utils import is_loggedin
 
 
 
@@ -25,15 +27,14 @@ app.include_router(
     auth_router,
     prefix='/auth'
 )
+app.include_router(
+    user_router,
+    prefix='/user'
+)
 
 
 
 
-async def is_loggedin(access_token):
-    logged_in = False
-    if access_token != None or access_token == '':
-       logged_in = True
-    return logged_in
 
 
 # routes for html main pages
