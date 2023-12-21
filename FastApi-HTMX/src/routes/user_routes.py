@@ -14,29 +14,22 @@ templates = Jinja2Templates('templates')
 
 
 @router.get('/')
-async def get_user_details(request: Request, access_token: Annotated[str | None, Cookie()] = None):
-    response = templates.TemplateResponse(
-        name='pages/userDetailsPage.html',
-        status_code=status.HTTP_200_OK,
-        context={
-            'request': request, 
-            'user_data': None,
-            'logged_in': await is_loggedin(access_token)
-        },
-        headers={
-            'HX-Redirect': '/user/', 
-        }
-    )
-
+async def get_user_details(request: Request, access_token: Annotated[str | None, Cookie()]):
     # validate access_token
     try:
+        if access_token == None:
+            return Exception
+
         token = jwt.decode(access_token, SECRET_KEY, ALGORITHM)
         user_id = token.get('data')
+
         if user_id == None:
             raise Exception
+
     except Exception:
-        response.status_code = status.HTTP_401_UNAUTHORIZED
-        return response
+        return HTMLResponse(
+            status_code=status.HTTP_401_UNAUTHORIZED
+        )
 
         
     # fetch user data from db
@@ -47,9 +40,21 @@ async def get_user_details(request: Request, access_token: Annotated[str | None,
         )
         user = await user.fetchone()
         if user == None or user == ():
-            response.status_code = status.HTTP_401_UNAUTHORIZED
-            return response
+            return HTMLResponse(
+                status_code=status.HTTP_401_UNAUTHORIZED
+            )
 
-    print(user)
-    response.context['user_data'] = user
-    return response
+        return templates.TemplateResponse(
+            name='pages/userDetailsPage.html',
+            status_code=status.HTTP_200_OK,
+            context={
+                'request': request, 
+                'user_data': user,
+                'logged_in': await is_loggedin(access_token)
+            },
+            headers={
+                'HX-Redirect': '/user/', 
+            }
+        )
+
+
