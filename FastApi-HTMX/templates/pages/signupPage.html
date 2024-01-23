@@ -20,5 +20,22 @@
         <input type="submit" value="SignUp">
     </form>
 </article>
+
+<script>
+    document.addEventListener('htmx:afterRequest', (event) => {
+        if(event.detail.xhr.status == 422) {
+            let form = document.querySelector('form')
+
+            let errMsg = document.querySelectorAll('#errMsg')
+            if (errMsg.length === 0){
+                let errMsg = document.createElement('div')
+                errMsg.id = 'errMsg'
+                errMsg.innerText = 'Invalid Input'
+
+                form.appendChild(errMsg)
+            }
+        }
+    })
+</script>
 {% endblock %}
 

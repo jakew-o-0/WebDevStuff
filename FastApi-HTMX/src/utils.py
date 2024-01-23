@@ -17,3 +17,12 @@ PASSWD_CONTEXT = CryptContext(
 SECRET_KEY = '1e389a7c4086367ff5751c1518133b14cc352a6154818c11307fed31f9b117f9'
 ALGORITHM = 'HS256'
 TOKEN_TIMEOUT = 30
+
+
+
+
+async def is_loggedin(access_token):
+    logged_in = False
+    if access_token != None or access_token == '':
+       logged_in = True
+    return logged_in
