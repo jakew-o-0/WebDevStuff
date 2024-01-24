@@ -1,0 +1,12 @@
+package templates
+
+const(
+    orangeButton = "bg-custOrange border-4 border-custGrey text-custGrey text-semibold w-fit px-2"
+    blueButton = "bg-custBlue border-4 border-custGrey text-custOrange text-semibold w-fit px-2"
+)
+
+templ button(content, style string) {
+    <button class={ style }>
+        { content }
+    </button>
+}
