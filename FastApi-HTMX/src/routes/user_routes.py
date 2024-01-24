@@ -15,41 +15,51 @@ templates = Jinja2Templates('templates')
 
 @router.get('/')
 async def get_user_details(request: Request, access_token: Annotated[str | None, Cookie()] = None):
-    response = templates.TemplateResponse(
-        name='pages/userDetailsPage.html',
-        status_code=status.HTTP_200_OK,
-        context={
-            'request': request, 
-            'user_data': None,
-            'logged_in': await is_loggedin(access_token)
-        },
-        headers={
-            'HX-Redirect': '/user/', 
-        }
-    )
 
-    # validate access_token
     try:
+        # validate access_token
         token = jwt.decode(access_token, SECRET_KEY, ALGORITHM)
         user_id = token.get('data')
         if user_id == None:
             raise Exception
-    except Exception:
-        response.status_code = status.HTTP_401_UNAUTHORIZED
-        return response
+
+        # fetch user data from db
+        async with aiosqlite.connect('data/DataBase.sqlite3') as db:
+            user = await db.execute(
+                'SELECT * FROM users WHERE user_id = ?',
+                (user_id,),
+            )
+            user = await user.fetchone()
+            if user == None or user == ():
+                raise Exception
+
+            return templates.TemplateResponse(
+                name='pages/userDetailsPage.html',
+                status_code=status.HTTP_200_OK,
+                context={
+                    'request': request, 
+                    'logged_in': await is_loggedin(access_token),
+                    'user_data': list(user)
+                },
+                headers={
+                    'HX-Redirect': '/user/', 
+                }
+            )
+
+
+    except Exception as e:
+        print(e)
+        return templates.TemplateResponse(
+            name='pages/userDetailsPage.html',
+            status_code = status.HTTP_401_UNAUTHORIZED,
+            context={
+                'request': request, 
+                'logged_in': await is_loggedin(access_token),
+                'user_data': None 
+            },
+            headers={
+                'HX-Redirect': '/user/', 
+            }
+        )
 
         
-    # fetch user data from db
-    async with aiosqlite.connect('data/DataBase.sqlite3') as db:
-        user = await db.execute(
-            'SELECT * FROM users WHERE user_id = ?',
-            (user_id,),
-        )
-        user = await user.fetchone()
-        if user == None or user == ():
-            response.status_code = status.HTTP_401_UNAUTHORIZED
-            return response
-
-    print(user)
-    response.context['user_data'] = user
-    return response

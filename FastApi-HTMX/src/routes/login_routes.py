@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Form, Request, Depends, Cookie
+from fastapi import APIRouter, Form, Request, Depends, Cookie, status
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -183,4 +183,58 @@ async def signup(request: Request,
         key='access_token',
         value=token
     )
+    return response
+
+
+@router.get('/change-password')
+async def change_passowrd(request: Request,
+                          access_token: Annotated[str|None, Cookie()],
+                          new_password: Annotated[str, Form()],
+                          new_password_conf: Annotated[str, Form()],
+                          old_password: Annotated[str, Form()]):
+                        
+    response = HTMLResponse(
+        status_code=status.HTTP_401_UNAUTHORIZED
+    )
+    response.content="<hgroup><h1>Error 401</h1><p>Invalid access_token</p></hgroup>",
+    if access_token is None:
+        return response
+
+    try:
+        jwt.decode(
+            token=access_token,
+            key=SECRET_KEY,
+            algorithms=ALGORITHM
+        )
+    except Exception:
+        return response
+    
+    response.content="<p>new passwords do not match</p>",
+    if new_password != new_password_conf:
+        return response
+
+    response.content="<p>new passwords do not have the right format</p>",
+    if not re.match(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*,.?+_=]).{8,}$', old_password):
+        return response
+    
+    async with aiosqlite.connect('data/DataBase.sqlite3') as db:
+        paswd = await db.execute(
+            'SELECT password FROM users WHERE password = ?', 
+            (PASSWD_CONTEXT.hash(old_password),)
+        )
+
+        if paswd is None or paswd == ():
+            response.content="<p>old password invalid</p>",
+            return response
+
+    async with aiosqlite.connect('data/DataBase.sqlite3') as db:
+        await db.execute(
+            'UPDATE users SET password = ? WHERE user_id = ?',
+            (
+                PASSWD_CONTEXT.hash(old_password),
+                PASSWD_CONTEXT.hash(new_password)
+            )
+        )
+
+    response.content="<p>Password Updated</p>",
     return response

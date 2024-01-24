@@ -1,30 +1,30 @@
 {% extends 'base.html' %}
 
-{% macro create_data_html(user_data) -%}
-    <hgroup>
-        <h1>Account Details</h1>
-        <p>update, delete or leave as is</p>
-    </hgroup>
-    {% for data in user_data %}
-    <article>
-        {{ data }}
-    </article>
-    {% endfor %}
-{%- endmacro %}
 
 {% block head %}
 {{ super() }}
 {% endblock %}
 
 {% block body %}
-{% if user_data != None %}
-    {{ create_data_html(user_data) }}
+
+{% if user_data == NoneType %}
+    <hgoup>
+        <h1>401 Unauthorized</h1>
+        <p>Invalid access token</p>
+    </hgoup>
 {% else %}
-    <div class="container">
-        <hgroup>
-            <h1>401: unauthorised</h1>
-            <p>Invalid Access_Token</p>
-        </hgroup>
-    </div>
+    <hgroup>
+        <h1>Account Details</h1>
+        <p>update, delete or leave as is</p>
+    </hgroup>
+    <article>
+        <p>First Name: {{ user_data[-2] }}</p>
+        <p>Last Name: {{ user_data[-1] }}</p>
+        <p>Email: {{ user_data[1] }}</p>
+        <div class="grid">
+            <button>Change Password</button>
+            <button>Change Email</button>
+        </div>
+    </article>
 {% endif %}
 {% endblock %}
