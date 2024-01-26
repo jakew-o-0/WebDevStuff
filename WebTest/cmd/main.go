@@ -13,6 +13,8 @@ func main() {
 	e.Use(middleware.Secure())
 
 	e.GET("/", indexPageGet)
+	e.GET("/login", loginPageGet)
+	e.GET("/signup", signupPageGet)
 	e.Static("/static", "./static")
 
 	e.Logger.Fatal(e.Start(":3000"))

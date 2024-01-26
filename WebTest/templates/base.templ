@@ -22,30 +22,6 @@ templ BaseHTML(content templ.Component) {
     </html>
 }
 
-templ mobileNav() {
-    <nav class="flex my-2 border-b-4 border-custGrey shadow-md shadow-custGrey">
-        <h1 class="flex-grow font-black text-3xl text-custBlue">
-            ToKa Fitness
-        </h1>
-        <div>
-            <svg xmlns="http://www.w3.org/2000/svg" 
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                ill="none"
-                stroke="currentColor"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="feather feather-menu stroke-custBlue">
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-        </div>
-    </nav>
-}
-
 templ IndexPage() {
     @IndexPageSection("Find Workouts")
     @IndexPageSection("Find Diet Plans")
@@ -63,11 +39,40 @@ templ IndexPage() {
     </section>
 }
 
-templ IndexPageSection(title string) {
-    <section class="bg-custBlue border-4 border-custGrey w-fit p-2 my-10 mx-auto grid grid-rows-2 gap-4">
-        <h2 class=" font-bold text-3xl text-custOrange">
-            { title }
-        </h2>
-        @button("Find", fmt.Sprintf("%s w-full", orangeButton))
+
+templ LoginPage() {
+    <section class="flex-row gap-5 w-fit mx-auto px-2 bg-custBeige border-custGrey border-4">
+        <h1 class="font-bold text-custBlue text-2xl">
+            Login
+        </h1>
+        <form class="flex-row gap-5">
+            <div>
+                <input type="email" name="email" placeholder="Email:"/>
+                <input type="password" name="password" placeholder="Password:"/>
+            </div>
+            @button("Login", "")
+            @button("Sign up", "")
+        </form>
     </section>
+}
+
+templ SignupPage() {
+    <section class="w-fit mx-auto px-2 bg-custBeige border-custGrey border-4">
+        <h1 class="font-bold text-custBlue text-3xl text-center mb-10 mt-5">
+            Login
+        </h1>
+        <form>
+            <input type="email" name="email" placeholder="Email:" class={ fmt.Sprintf("%s mb-5", inputBox) }/><br/>
+
+            <input type="text" name="fname" placeholder="First Name:" class={ inputBox }/><br/>
+            <input type="text" name="lname" placeholder="Last Name:" class={ fmt.Sprintf("%s mb-5", inputBox) }/><br/>
+
+            <input type="password" name="password" placeholder="Password:" class={ inputBox }/><br/>
+            <input type="password" name="confPassword" placeholder="Confirm Password:" class={ fmt.Sprintf("%s mb-5", inputBox) }/><br/>
+
+            @button("Login", blueButton)
+            @button("Sign up", fmt.Sprintf("%s mb-5 mt-1", orangeButton))
+        </form>
+    </section>
+
 }
