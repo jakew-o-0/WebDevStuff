@@ -1,0 +1,128 @@
+package templatesOld
+
+import (
+    "fmt"
+)
+
+// button styles
+const(
+    orangeButton = "bg-custOrange border-4 border-custGrey text-custGrey text-bold w-full px-2 hover:bg-custGrey hover:text-custOrange active:outline active:outline-custGrey active:outline-4 active:outline-offset-1"
+    blueButton = "bg-custBlue border-4 border-custGrey text-custOrange text-bold w-full px-2 hover:bg-custGrey hover:text-custOrange active:outline active:outline-custGrey active:outline-4 active:outline-offset-1"
+    beigeButton = "bg-custBeige border-4 border-custGrey text-custGrey text-bold w-full px-2 hover:bg-custBlue hover:text-custOrange active:outline active:outline-custGrey active:outline-4 active:outline-offset-1"
+)
+
+// inputbox style
+const(
+    inputBox = "p-1 mt-1 w-full bg-custBeige border-4 border-custGrey text-custGrey font-semibold focus:border-custBlue"
+)
+
+
+
+
+
+templ IndexPageSection(title string) {
+    <section class="bg-custBlue border-4 border-custGrey w-fit p-2 my-10 mx-auto grid grid-rows-2 gap-4">
+        <h2 class=" font-bold text-3xl text-custOrange">
+            { title }
+        </h2>
+        <button class={ fmt.Sprintf("%s w-full", orangeButton) }>
+           Find 
+        </button>
+    </section>
+}
+
+
+
+templ MobileNav() {
+    <nav class="flex my-2 border-b-4 border-custGrey shadow-md shadow-custGrey">
+        <h1 class="flex-grow font-black text-3xl text-custBlue">
+            ToKa Fitness
+        </h1>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                ill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+
+                class="feather feather-menu stroke-custBlue hover:stroke-custGrey"
+                hx-get="/navDropdown"
+                hx-target="header"
+                hx-swap="innerHTML">
+
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </div>
+    </nav>
+}
+
+templ mobileNavDropdownOpen() {
+    <nav class="flex my-2 border-b-4 border-custGrey shadow-md shadow-custGrey">
+        <h1 class="flex-grow font-black text-3xl text-custBlue">
+            ToKa Fitness
+        </h1>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                width="48"
+                height="48"
+                viewBox="0 0 24 24"
+                ill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+
+                class="feather feather-menu stroke-custBlue hover:stroke-custGrey"
+                hx-delete="/navDropdown"
+                hx-target="header"
+                hx-swap="innerHTML">
+
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </div>
+    </nav>
+}
+
+templ MobileNavDropdown() {
+    @mobileNavDropdownOpen()
+    <div id="navDropdown" class="border-4 bg-custBeige border-custGrey p-2 w-full">
+        <button class={ fmt.Sprintf("%q mb-2", beigeButton) }
+                hx-get="/login"
+                hx-target="body"
+                hx-swap="outerHTML"
+                hx-push-url="true">
+            Login
+        </button>
+        <button class={ fmt.Sprintf("%q mb-2", beigeButton) }
+                hx-get="/signup"
+                hx-target="body"
+                hx-swap="outerHTML"
+                hx-push-url="true">
+            Signup
+        </button>
+
+        <button class={ fmt.Sprintf("%q mb-2", beigeButton) }
+                hx-get="/workouts"
+                hx-target="body"
+                hx-swap="outerHTML"
+                hx-push-url="true">
+            Workouts
+        </button>
+
+        <button class={ fmt.Sprintf("%q mb-2", beigeButton) }
+                hx-get="/diets"
+                hx-target="body"
+                hx-swap="outerHTML"
+                hx-push-url="true">
+            Diets
+        </button>
+    </div>
+}

@@ -1,0 +1,134 @@
+package templates
+
+import (
+    "webtest/internal/database"
+    "fmt"
+)
+
+templ IndexPage(isLoggedIn bool) {
+    @mainContent(isLoggedIn) {
+        <article>
+            <header><h1>Workouts</h1></header>
+            find the purfect workout for you
+            <footer >
+                <div role="group">
+                    <a href="/workouts" role="button">Find Workouts</a>
+                </div>
+            </footer>
+        </article>
+
+        <article>
+            <header><h1>Diets</h1></header>
+            get in shape with a diet<br/>
+            <footer >
+                <div role="group">
+                    <a href="/diets" role="button">Find Diets</a>
+                </div>
+            </footer>
+        </article>
+        <article>
+            <header>Sign up today!</header>
+            create an account to take full advantage of the website
+            <br/>
+            <footer >
+                <div role="group">
+                    <a href="/login" role="button">Login</a>
+                </div>
+                <div role="group">
+                    <a href="/signup" role="button" class="contrast">Sign Up</a>
+                </div>
+            </footer>
+        </article>
+    }
+}
+
+
+templ SignupPage(isLoggedIn bool) {
+    @mainContent(isLoggedIn) {
+        <article>
+            <header>
+                <h1>Login</h1>
+            </header>
+        
+            <form action="">
+                <section>
+                    <input type="email" placeholder="Email"/>
+                </section>
+                <section>
+                    <input type="text" placeholder="First Name"/>
+                    <input type="text" placeholder="Last Name"/>
+                </section>
+                <section>
+                    <input type="password" placeholder="Password"/>
+                    <input type="password" placeholder="Confirm Password"/>
+                </section>
+
+                <input type="submit" value="Sign Up"/>
+                <input type="button" value="Login" class="contrast"/>
+            </form>
+        </article>
+    }
+}
+
+templ LoginPage(isLoggedIn bool) {
+    @mainContent(isLoggedIn) {
+        <article>
+            <header>
+                <h1>Login</h1>
+            </header>
+        
+            <form action="">
+                <section>
+                    <input type="email" placeholder="Email"/>
+                    <input type="password" placeholder="Password"/>
+                </section>
+
+                <input type="submit" value="Login" />
+                <input type="button" value="Sign Up" class="contrast"/>
+            </form>
+        </article>
+    }
+}
+
+templ WorkoutsPage(isLoggedIn bool, workouts []*database.Workout) {
+    @mainContent(isLoggedIn) {
+        for _, w := range workouts {
+        <article>
+            <header>
+                <h2>{ w.Title }</h2>
+                <p>{ w.Description }</p>
+            </header>
+            <table>
+                <tr>
+                <th>Workout</th>
+                <th>Reps</th>
+                </tr>
+                @workoutTable(w)
+            </table>
+        </article>
+        }
+    }
+}
+
+templ workoutTable(w *database.Workout) {
+    for k,v := range w.Content.(map[string]interface{}) {
+        <tr>
+            <td>{ k }</td>
+            <td>{ fmt.Sprintf("%d", int(v.(float64))) }</td>
+        </tr>
+    }
+}
+
+
+templ DietsPage(isLoggedIn bool, workouts []*database.Workout) {
+    @mainContent(isLoggedIn) {
+        for _, w := range workouts {
+            <article>
+                <header>
+                    <h2>{ w.Title }</h2>
+                    <p>{ w.Description }</p>
+                </header>
+            </article>
+        }
+    }
+}
