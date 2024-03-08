@@ -1,0 +1,17 @@
+package templates
+
+type IndexPage struct {}
+
+templ (i IndexPage) Page() {
+<article>
+    <hgroup>
+        <h1>This is a twitter clone</h1>
+        <p>view posts or your inbox</p>
+    </hgroup>
+
+    <div class="grid">
+        <a href="/posts" role="button">Posts</a>
+        <a href="/inbox" role="button">Inbox</a>
+    </div>
+</article>
+}

@@ -1,0 +1,23 @@
+package templates
+
+type PostsPage struct {
+    Posts []struct{
+        Title string
+        Content string
+    }
+}
+
+templ (p PostsPage) Page() {
+    <button style="position: fixed; bottom:2rem; right:2rem;">
+        Create
+    </button>
+
+    for _,n := range p.Posts {
+        <article>
+            <header>
+                <h1>{ n.Title }</h1>
+            </header>
+            <pre>{ n.Content }</pre>
+        </article>
+    }
+}

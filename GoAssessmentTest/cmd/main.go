@@ -16,8 +16,7 @@ func main() {
     r.Use(middleware.Logger)
     r.Use(middleware.Recoverer)
     r.Use(middleware.Timeout(1 * time.Minute))
-
-    r.Get("/", server.IndexPageGet)
+    r.Mount("/", server.Routes())
 
     http.ListenAndServe(":3000", r)
 }

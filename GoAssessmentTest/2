@@ -13,10 +13,3 @@ func (srv *Server) IndexPageGet(w http.ResponseWriter, r *http.Request) {
     }
     page.RenderPage().Render(r.Context(), w)
 }
-
-func (srv *Server) InboxPageGet(w http.ResponseWriter, r *http.Request) {
-    page := templates.Base{
-	IsLoggedIn: false,
-    }
-    page.RenderPage().Render(r.Context(), w)
-}
