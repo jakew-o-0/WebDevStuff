@@ -1,8 +1,6 @@
 package templates
 
-type IndexPage struct {}
-
-templ (i IndexPage) Page() {
+templ (b Base) IndexPage() {
 <article>
     <hgroup>
         <h1>This is a twitter clone</h1>
@@ -14,4 +12,10 @@ templ (i IndexPage) Page() {
         <a href="/inbox" role="button">Inbox</a>
     </div>
 </article>
+}
+
+templ (b Base) BaseIndexPage() {
+    @b.baseContent() {
+        @b.IndexPage()
+    }
 }

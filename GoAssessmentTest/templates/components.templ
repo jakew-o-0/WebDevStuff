@@ -1,0 +1,76 @@
+package templates
+
+// modal with a form to create a post
+templ PostsModal(titleError, contentError string) {
+<dialog open id="modal">
+    <article>
+        <header>
+            <button 
+                aria-label="Close"
+                rel="prev"
+                hx-on:click="closeDiologue()"
+            ></button>
+            <h2><strong>Create a Post</strong></h2>
+        </header>
+
+        <form hx-post="/posts" hx-swap="outerHTML">
+            if titleError == "" {
+                <input 
+                    type="text"
+                    placeholder="Title:"
+                    name="title"
+                />
+            } else {
+                <input 
+                    type="text"
+                    placeholder="Title:"
+                    name="title"
+                    aria-invalid="true"
+                    aria-describedby="#title-helper"
+                />
+                <small id="title-helper">{ titleError }</small>
+            }
+
+            if contentError == "" {
+                <textarea name="content" placeholder="Content:"></textarea>
+            } else {
+                <textarea 
+                    name="content"
+                    placeholder="Content:"
+                    aria-invalid="true"
+                    aria-describedby="#content-helper">
+                </textarea>
+                <small id="content-helper">{ contentError }</small>
+            }
+
+            <input type="submit" value="Post"/>
+        </form>
+    </article>
+
+    <script>
+        function closeDiologue() {
+            const element = document.getElementById("modal");
+            element.remove();
+        }   
+    </script>
+</dialog>
+}
+
+
+templ DeleteModal() {
+    <div
+        hx-on:revealed="closeDiologue()"
+    >
+    </div>
+}
+
+
+templ HtmxRedirect(dest string) {
+    <div 
+        hx-get={dest}
+        hx-target="body"
+        hx-trigger="revealed"
+        hx-swap="outerHTML"
+        hx-push-url="true">
+    </div>
+}

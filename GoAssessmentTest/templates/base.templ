@@ -1,13 +1,12 @@
 package templates
 
 type Base struct{
-    IsLoggedIn bool
-    Child interface{
-        Page() templ.Component
-    }
+    FlashMessage string
+    LoggedIn bool
+    Errors map[string]string
 }
 
-templ (b Base) RenderPage() {
+templ (b Base) baseContent() {
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -18,15 +17,19 @@ templ (b Base) RenderPage() {
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.pink.min.css"
         />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css"
+        />
         <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
     </head>
     <body>
-        <header>
+        <header style="padding-top:0; position:sticky; top:0;">
             @b.header()
         </header>
 
         <main class="container">
-            @b.Child.Page()
+            { children... }
         </main>
     </body>
 </html>
@@ -38,21 +41,42 @@ templ (b Base) header() {
     <nav class="container">
         <ul>
             <li>
-                <h1>Website Title</h1>
+                <a href="/"><h1>Website Title</h1></a>
             </li>
         </ul>
 
         <ul>
-            <li>
-                if !b.IsLoggedIn {
-                    <a href="/login">Login</a>
-                    <a href="/signup">Signup</a>
-                } else {
-                    <a href="/posts">Posts</a>
-                    <a href="/inbox">Inbox</a>
-                }
-            </li>
+            if !b.LoggedIn {
+                <li><a href="/auth/login">Login</a></li>
+                <li><a href="/auth/signup">Signup</a></li>
+            } else {
+                <li><a href="/posts">Posts</a></li>
+                <li><a href="/inbox">Inbox</a></li>
+                <li><a hx-post="/auth/logout">Logout</a></li>
+            }
         </ul>
     </nav>
 </article>
+
+    if b.FlashMessage != "" {
+        <article 
+            id="flash"
+            class="pico-background-pink-600"
+            hx-on:revealed="deleteFlash();"
+        >
+            <h2>{ b.FlashMessage }</h2>
+        </article>
+        <script>
+            function sleep(ms) {
+                return new Promise(res => setTimeout(res, ms));
+            }
+
+            async function deleteFlash() {
+                const element = document.getElementById("flash");
+                await sleep(5 * 1000);
+                element.remove();
+            }
+            deleteFlash();
+        </script>
+    }
 }

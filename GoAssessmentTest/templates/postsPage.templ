@@ -1,23 +1,51 @@
 package templates
 
-type PostsPage struct {
-    Posts []struct{
-        Title string
-        Content string
+import "website/cmd/databse"
+import "fmt"
+
+type PostsPageParams struct {
+    CurPage int
+    Posts []database.GetPostsRow
+}
+
+templ (b Base) PostsPage(p PostsPageParams) {
+    if b.LoggedIn {
+        <button 
+            style="position: fixed; bottom:2rem; right:2rem;"
+            hx-get="/posts/create"
+            hx-target="main"
+            hx-swap="afterbegin"
+        >
+            Create
+        </button>
+    }
+
+    for i,n := range p.Posts {
+        if i == len(p.Posts)-1 {
+            <article 
+                hx-get={ fmt.Sprintf("/posts?page=%d", p.CurPage) }
+                hx-trigger="revealed"
+                hx-target="main"
+                hx-swap="beforeend"
+            >
+                <header>
+                    <h1>{ n.Title }</h1>
+                </header>
+                <p>{ n.Content }</p>
+            </article>
+        } else {
+            <article>
+                <header>
+                    <h1>{ n.Title }</h1>
+                </header>
+                <p>{ n.Content }</p>
+            </article>
+        }
     }
 }
 
-templ (p PostsPage) Page() {
-    <button style="position: fixed; bottom:2rem; right:2rem;">
-        Create
-    </button>
-
-    for _,n := range p.Posts {
-        <article>
-            <header>
-                <h1>{ n.Title }</h1>
-            </header>
-            <pre>{ n.Content }</pre>
-        </article>
+templ (b Base) BasePostsPage(p PostsPageParams) {
+    @b.baseContent() {
+        @b.PostsPage(p)
     }
 }

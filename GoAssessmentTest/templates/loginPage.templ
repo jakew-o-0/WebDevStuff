@@ -1,0 +1,91 @@
+package templates
+
+
+// login form page. checks the errors map for an error corresponding
+// with an input feild. If so, the feild will have an invalid style 
+// and display the error message
+templ (b Base) LoginPage() {
+    <article id="loginForm">
+        <header>
+            <h1>Login</h1>
+        </header>
+
+
+        <form hx-post="/auth/login" hx-target="#loginForm" hx-swap="outerHTML">
+            <section>
+                if err,ok := b.Errors["Username"]; ok {
+                    <input type="text" placeholder="Username:" name="username" aria-invalid="true" aria-describedby="#username-helper"/>
+                    <small id="username-helper">{ err }</small>
+                } else {
+                    <input type="text" placeholder="Username:" name="username"/>
+                }
+
+                if err,ok := b.Errors["Password"]; ok {
+                    <input type="password" placeholder="Password:" name="password" aria-invalid="true" aria-describedby="#password-helper"/>
+                    <small id="password-helper">{ err }</small>
+                } else {
+                    <input type="password" placeholder="Password:" name="password"/>
+                }
+            </section>
+
+
+            <div class="grid">
+                <button type="submit" style="margin-bottom:0;">Login</button>
+                <a href="/auth/signup" role="button" class="secondary">Signup</a>
+            </div>
+        </form>
+    </article> 
+}
+
+templ (b Base) BaseLoginPage() {
+    @b.baseContent() {
+        @b.LoginPage()
+    }
+}
+
+
+// signup form page. checks the errors map for an error corresponding
+// with an input feild. If so, the feild will have an invalid style 
+// and display the error message
+templ (b Base) SignupPage() {
+    <article id="signupForm">
+        <header>
+            <h1>Sign up</h1>
+        </header>
+
+
+        <form hx-post="/auth/signup" hx-target="#signupForm" hx-swap="outerHTML">
+            <section>
+                if err,ok := b.Errors["Username"]; ok {
+                    <input type="text" placeholder="Username:" name="username" aria-invalid="true" aria-describedby="#username-helper"/>
+                    <small id="username-helper">{ err }</small>
+                } else {
+                    <input type="text" placeholder="Username:" name="username"/>
+                }
+            </section>
+
+
+            <section>
+                if err,ok := b.Errors["Password"]; ok {
+                    <input type="password" placeholder="Password:" name="password" aria-invalid="true"/>
+                    <input type="password" placeholder="Confirm Password:" name="confPassword" aria-invalid="true" aria-describedby="#password-helper"/>
+                    <small id="password-helper">{ err }</small>
+                } else {
+                    <input type="password" placeholder="Password:" name="password"/>
+                    <input type="password" placeholder="Confirm Password:" name="confPassword"/>
+                }
+            </section>
+
+            <div class="grid">
+                <button type="submit" style="margin-bottom:0;">Signup</button>
+                <a href="/auth/login" role="button" class="secondary">Login</a>
+            </div>
+        </form>
+    </article>
+}
+
+templ (b Base) BaseSignupPage() {
+    @b.baseContent() {
+        @b.SignupPage()
+    }
+}
