@@ -1,0 +1,80 @@
+package templates
+
+import "t2/internal/database"
+import "fmt"
+
+templ (p Page) LearningPageComp(content []database.LearningContent, page int) {
+    <hgroup>
+        <h1>
+        </h1>
+        <form 
+            role="search"
+            hx-post="/learning"
+            hx-target="#content"
+        >
+            <input type="search" name="search" placeholder="Search:"/>
+            <input type="submit" value="Search"/>
+        </form>
+    </hgroup>
+    <div id="content">
+        for i,l := range content {
+            if i >= len(content) {
+                <article 
+                    hx-get={ fmt.Sprintf("/learning/%d", page) }
+                    hx-target="#content"
+                    hx-swap="beforeend"
+                >
+                    <header>
+                        <h1>{ l.Name }</h1>
+                    </header>
+                    <h3>Description</h3>
+                    <p>{ l.Description }</p>
+                    <h3>Habitat</h3>
+                    <p>{ l.Habitat }</p>
+                    <h3>Diet</h3>
+                    <p>{ l.Diet }</p>
+                    <h3>Conservation Status</h3>
+                    <p>{ l.ConservationStatus }</p>
+                </article>
+            } else {
+                <article>
+                    <header>
+                        <h1>{ l.Name }</h1>
+                    </header>
+                    <h3>Description</h3>
+                    <p>{ l.Description }</p>
+                    <h3>Habitat</h3>
+                    <p>{ l.Habitat }</p>
+                    <h3>Diet</h3>
+                    <p>{ l.Diet }</p>
+                    <h3>Conservation Status</h3>
+                    <p>{ l.ConservationStatus }</p>
+                </article>
+            }
+        }
+    </div>
+}
+
+templ (p Page) LearngingContentComp(content []database.LearningContent) {
+    for _,l := range content {
+        <article>
+            <header>
+                <h1>{ l.Name }</h1>
+            </header>
+            <h3>Description</h3>
+            <p>{ l.Description }</p>
+            <h3>Habitat</h3>
+            <p>{ l.Habitat }</p>
+            <h3>Diet</h3>
+            <p>{ l.Diet }</p>
+            <h3>Conservation Status</h3>
+            <p>{ l.ConservationStatus }</p>
+        </article>
+    }
+}
+
+templ (p Page) LearningPage(content []database.LearningContent, page int) {
+    @p.base() {
+        @p.LearningPageComp(content, page)
+    }
+}

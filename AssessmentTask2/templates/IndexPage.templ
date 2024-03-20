@@ -1,0 +1,17 @@
+package templates
+
+
+templ (p Page) IndexPageComp() {
+    <article>
+        <hgroup>
+            <h1>Index Page</h1>
+            <p>This is the index page. It needs actual content</p>
+        </hgroup>
+    </article>
+}
+
+templ (p Page) IndexPage() {
+    @p.base() {
+        @p.IndexPageComp()
+    }
+}

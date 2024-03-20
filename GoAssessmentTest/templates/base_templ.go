@@ -89,20 +89,20 @@ func (b Base) header() templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if b.FlashMessage != "" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<article id=\"flash\" class=\"pico-background-pink-600\" hx-on:revealed=\"deleteFlash();\"><h2>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container\"><article id=\"flash\" class=\"pico-background-pink-600\" hx-on:revealed=\"deleteFlash();\"><h2>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(b.FlashMessage)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/base.templ`, Line: 66, Col: 32}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/base.templ`, Line: 67, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2></article><script>\n            function sleep(ms) {\n                return new Promise(res => setTimeout(res, ms));\n            }\n\n            async function deleteFlash() {\n                const element = document.getElementById(\"flash\");\n                await sleep(5 * 1000);\n                element.remove();\n            }\n            deleteFlash();\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h2><progress id=\"prog\" value=\"0\" max=\"100\"></progress></article></div><script>\n            function sleep(ms) {\n                return new Promise(res => setTimeout(res, ms));\n            }\n\n            async function deleteFlash() {\n                const flash = document.getElementById(\"flash\");\n                const progress = document.getElementById(\"prog\")\n                const split = 5000 / 100\n                for(let i = 0; i <= 100; i++) {\n                    progress.setAttribute(\"value\", i)\n                    await sleep(split);\n                }\n                flash.remove();\n            }\n            deleteFlash();\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

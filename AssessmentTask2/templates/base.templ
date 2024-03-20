@@ -1,0 +1,76 @@
+package templates
+
+
+type Page struct {
+    LoggedIn bool
+    Errors map[string]string
+    Flash string
+}
+
+
+templ (p Page) base() {
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <title>ZOO</title>
+            <link
+                rel="stylesheet"
+                href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.purple.min.css"
+            />
+            <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+        </head>
+        <body>
+            <header 
+                class="container-fluid"
+                style="postition:sticky; top:0;"
+            >
+               @p.header()
+               if len(p.Flash) > 0{
+                   @p.flashMessage()
+               }
+            </header>
+
+            <main class="container">
+                { children... }
+            </main>
+        </body>
+    </html>
+}
+
+
+templ (p Page) header() {
+    <article >
+        <nav class="container">
+            <ul>
+                <li>
+                    <a href="/"><h1>ZOO WEBSITE</h1></a>
+                </li>
+            </ul>
+            <ul>
+                if p.LoggedIn {
+                    <details class="dropdown">
+                        <summary>Stuff</summary>
+                        <ul dir="rtl">
+                            <li><a href="/learning/0">Learning</a></li>
+                            <li><a href="/attractions/0">Attractions</a></li>
+                            <li><a href="/facilities/0">Facilities</a></li>
+                            <li><a href="/hotel">Hotel Rooms</a></li>
+                            <li></li>
+                            <li><a href="/user/">Account</a></li>
+                            <li><a href="/user/tickets">Your Tickets</a></li>
+                            <li><a href="/auth/logout">Logout</a></li>
+                        </ul>
+                    </details>
+                } else {
+                    <li><a href="/auth/login">Login</a></li>
+                    <li><a href="/auth/signup">Sign Up</a></li>
+                }
+            </ul>
+        </nav>
+    </article>
+}
+
+templ (p Page) flashMessage() {
+    <article>{ p.Flash }</article>
+}
